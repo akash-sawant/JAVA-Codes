@@ -1,0 +1,77 @@
+import java.util.Scanner;
+
+class Emp {
+    int id;
+    String name;
+    int totalworkinghours;
+    double salary;
+    double overtimePay;
+
+    public void setInformation(int id, String name, double salary, int totalworkinghours) {
+        this.name = name;
+        this.id = id;
+        this.salary = salary;
+        this.totalworkinghours = totalworkinghours;
+    }
+
+    void displayInformation() {
+        System.out.println("Id: " + id);
+        System.out.println("Name: " + name);
+        System.out.println("Salary: " + salary);
+        System.out.println("Total working hours: " + totalworkinghours);
+        System.out.println("OverTime Pay: " + overtimePay);
+        System.out.println("==================================");
+    }
+}
+
+class OverTimeApp {
+    Emp[] emp;
+
+    void setEmployee(Emp[] emp) {
+        this.emp = emp;
+    }
+
+    void calculateOvertime() {
+        for (int i = 0; i < emp.length; i++) {
+            int otime = emp[i].totalworkinghours - 40;
+            if (otime > 0) {
+                emp[i].overtimePay = otime * 50;
+                emp[i].salary += emp[i].overtimePay;
+            }
+        }
+        for (int i = 0; i < emp.length; i++) {
+            emp[i].displayInformation();
+        }
+    }
+}
+
+public class CalculatSalaryApp {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the number of employees:");
+        int numEmployees = sc.nextInt();
+        sc.nextLine();
+
+        Emp[] emp = new Emp[numEmployees];
+        for (int i = 0; i < numEmployees; i++) {
+            System.out.println("Enter details for Employee :");
+            System.out.print("ID: ");
+            int id = sc.nextInt();
+            sc.nextLine();
+            System.out.print("Name: ");
+            String name = sc.nextLine();
+            System.out.print("Salary: ");
+            double salary = sc.nextDouble();
+            System.out.print("Total Working Hours: ");
+            int totalWorkingHours = sc.nextInt();
+            sc.nextLine();
+            emp[i] = new Emp();
+            emp[i].setInformation(id, name, salary, totalWorkingHours);
+        }
+
+        OverTimeApp otObject = new OverTimeApp();
+        otObject.setEmployee(emp);
+        otObject.calculateOvertime();
+        
+    }
+}
